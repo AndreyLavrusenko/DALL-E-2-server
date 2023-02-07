@@ -13,12 +13,31 @@ cloudinary.config({
 
 // GET ALL POSTS
 router.get('', async (req, res) => {
+    try {
+        const posts = await Post.find({})
 
+        res.status(200).json({success: true, data: posts})
+    } catch (err) {
+        res.status(500).json({success: false, message: err})
+    }
 })
 
 // CREATE A POST
 router.post('', async (req, res) => {
+   try {
+       const {name, prompt, photo} = req.body
+       const photoUrl = await cloudinary.uploader.upload(photo)
 
+       const newPost = await Post.create({
+           name,
+           prompt,
+           photo: photoUrl.url
+       })
+
+       res.status(201).json({success: true, data: newPost})
+   } catch (err) {
+       res.status(500).json({success: false, message: err})
+   }
 })
 
 module.exports = router

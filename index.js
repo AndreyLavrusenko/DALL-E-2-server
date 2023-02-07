@@ -1,12 +1,11 @@
 const express = require("express")
 const cors = require("cors");
 const connectDB = require("./mongodb/connect");
-const dotenv = require('dotenv')
 
 const postRoutes = require('./routes/postRoutes')
 const dalleRoutes = require('./routes/dalleRoutes')
 
-dotenv.config()
+require('dotenv').config()
 
 const app = express();
 
@@ -19,6 +18,7 @@ app.use('/api/v1/dalle', dalleRoutes)
 app.get('/', async (req, res) => {
     res.send('Hello world')
 })
+
 
 const startServer = async () => {
     try {
