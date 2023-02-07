@@ -10,6 +10,11 @@ require('dotenv').config()
 const app = express();
 
 app.use(cors({credentials: true, origin: process.env.CLIENT_URI}))
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', req.header('origin')
+        || req.header('x-forwarded-host') || req.header('referer') || req.header('host'));
+    next();
+});
 app.use(express.json({limit: '50mb'}))
 
 app.use('/api/v1/post', postRoutes)
